@@ -1,5 +1,5 @@
 ## Hyperpixel Flow: <br/> Semantic Correspondence with Multi-layer Neural Features
-This is the implementation of the paper "Hyperpixel Flow: Semantic Correspondence with Multi-layer Neural Features" by J. Min, J. Lee and M. Cho.
+This is the implementation of the paper "Hyperpixel Flow: Semantic Correspondence with Multi-layer Neural Features" by J. Min, J. Lee, J. Ponce and M. Cho.
 Implemented on Python 3.6 and Pytorch 1.0.1.
 
 ![](http://cvlab.postech.ac.kr/research/HPF/images/architecture.png)
