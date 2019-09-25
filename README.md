@@ -8,8 +8,8 @@ For more information, check out project [[website](http://cvlab.postech.ac.kr/re
 
 ### Conda environment settings
 
-    conda create -n HyperpixelFlow python=3.6
-    conda activate HyperpixelFlow
+    conda create -n hpf python=3.6
+    conda activate hpf
 
     cat /usr/local/cuda/version.txt
     conda install pytorch=1.0.1 torchvision cudatoolkit=10.0 -c pytorch (if CUDA 10) 
