@@ -115,6 +115,8 @@ if __name__ == '__main__':
     candidate_layers = list(range(n_layers[args.backbone]))
 
     # 2. Logging initialization
+    if not os.path.isdir('logs'):
+        os.mkdir('logs')
     cur_datetime = datetime.datetime.now().__format__('_%m%d_%H%M%S')
     logfile = os.path.join('logs', args.logpath + cur_datetime + '.log')
     util.init_logger(logfile)
