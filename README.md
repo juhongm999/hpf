@@ -59,7 +59,7 @@ If you use this code and SPair-71k dataset for your research, please consider ci
 @InProceedings{min2019hyperpixel, 
    title={Hyperpixel Flow: Semantic Correspondence with Multi-layer Neural Features},
    author={Juhong Min and Jongmin Lee and Jean Ponce and Minsu Cho},
-   booktitle={ICCV}
+   booktitle={ICCV},
    year={2019}
 }
 ````
@@ -67,7 +67,7 @@ If you use this code and SPair-71k dataset for your research, please consider ci
 @article{min2019spair,
    title={SPair-71k: A Large-scale Benchmark for Semantic Correspondence},
    author={Juhong Min and Jongmin Lee and Jean Ponce and Minsu Cho},
-   journal={arXiv prepreint arXiv:1908.10543}
+   journal={arXiv prepreint arXiv:1908.10543},
    year={2019}
 }
 ````
