@@ -8,11 +8,11 @@ from torch.utils.data import DataLoader
 import torch
 
 from model import hpflow, geometry, evaluation, util
-from data import dataset, download
+from data import download
 
 
 def run(datapath, benchmark, backbone, thres, alpha, hyperpixel,
-        logpath, beamsearch, model=None, dataloader=None):
+        logpath, beamsearch, model=None, dataloader=None, visualize=False):
     r"""Runs Hyperpixel Flow framework"""
 
     # 1. Logging initialization
@@ -23,6 +23,8 @@ def run(datapath, benchmark, backbone, thres, alpha, hyperpixel,
         logfile = os.path.join('logs', logpath + cur_datetime + '.log')
         util.init_logger(logfile)
         util.log_args(args)
+        if visualize: os.mkdir(logfile + 'vis')
+
 
     # 2. Evaluation benchmark initialization
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -59,7 +61,10 @@ def run(datapath, benchmark, backbone, thres, alpha, hyperpixel,
         # d) Log results
         if not beamsearch:
             evaluator.log_result(idx, data=data)
-
+        if visualize:
+            vispath = os.path.join(logfile + 'vis', '%03d_%s_%s' % (idx, data['src_imname'][0], data['trg_imname'][0]))
+            util.visualize_prediction(data['src_kps'].t().cpu(), prd_kps.t().cpu(),
+                                      data['src_img'], data['trg_img'], vispath)
     if beamsearch:
         return (sum(evaluator.eval_buf['pck']) / len(evaluator.eval_buf['pck'])) * 100.
     else:
@@ -77,7 +82,8 @@ if __name__ == '__main__':
     parser.add_argument('--alpha', type=float, default=0.1)
     parser.add_argument('--hyperpixel', type=str, default='')
     parser.add_argument('--logpath', type=str, default='')
+    parser.add_argument('--visualize', action='store_true')
     args = parser.parse_args()
 
-    run(datapath=args.datapath, benchmark=args.dataset, backbone=args.backbone, thres=args.thres,
-        alpha=args.alpha, hyperpixel=args.hyperpixel, logpath=args.logpath, beamsearch=False)
+    run(datapath=args.datapath, benchmark=args.dataset, backbone=args.backbone, thres=args.thres, alpha=args.alpha,
+        hyperpixel=args.hyperpixel, logpath=args.logpath, beamsearch=False, visualize=args.visualize)

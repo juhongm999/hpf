@@ -1,6 +1,8 @@
 """Provides functions that manipulate boxes and points"""
 
 import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
 from . import util
 
@@ -105,3 +107,83 @@ def gaussian2d(side=7):
     gaussian = gaussian / gaussian.sum()
 
     return gaussian
+
+
+class PointTPS(nn.Module):
+    def __init__(self, kps_a, kps_b, relaxation):
+        super(PointTPS, self).__init__()
+        l2 = PointTPS.__build_l2_mat(kps_a, kps_a)
+
+        l2[l2 == 0] = 1
+        K = l2 * torch.log(l2) * (1/2.0)
+        K = K + relaxation * torch.diag(torch.ones(len(kps_a)))
+        P = torch.cat([torch.ones(len(kps_a), 1), kps_a], dim=1)
+
+        L_up = torch.cat([K, P], dim=1)
+        L_down = torch.cat([P.t(), torch.zeros((3, 3))], dim=1)
+        L = torch.cat([L_up, L_down], dim=0)
+
+        v = kps_b - kps_a
+        v = torch.cat([v, torch.zeros(3, 2)], dim=0)
+        W = L.inverse() @ v
+
+        self.register_buffer('kps_a', kps_a)
+        self.register_buffer('W', W)
+
+    def forward(self, pts):
+        l2 = PointTPS.__build_l2_mat(self.kps_a, pts)
+
+        l2[(l2 == 0).detach()] = 1
+        v = l2 * torch.log(l2) * (1/2.0)
+
+        o = pts[:, 0] - pts[:, 0] + 1
+
+        x = torch.stack([o, pts[:, 0], pts[:, 1]], dim=0)
+        x = torch.cat([v, x], dim=0)
+
+        z_x = x.t() @ (self.W[:, 0])
+        z_y = x.t() @ (self.W[:, 1])
+
+        target_x = pts[:, 0] + z_x
+        target_y = pts[:, 1] + z_y
+
+        return torch.stack([target_x, target_y], dim=1)
+
+    @staticmethod
+    def __build_l2_mat(pts_a, pts_b):
+        n_a = len(pts_a)
+        n_b = len(pts_b)
+
+        m1 = torch.stack([pts_a] * n_b)
+        m2 = torch.stack([pts_b] * n_a)
+
+        l2 = ((m1.transpose(0, 1) - m2) ** 2).sum(2)
+
+        return l2
+
+
+class ImageTPS(PointTPS):
+    def __init__(self, kps_a, kps_b, in_size, out_size, relaxation=0):
+        super().__init__(kps_b, kps_a, relaxation)
+        ws = torch.linspace(0, out_size[0], steps=out_size[0])
+        hs = torch.linspace(0, out_size[1], steps=out_size[1])
+
+        self.register_buffer('hs', hs)
+        self.register_buffer('ws', ws)
+        self.register_buffer('in_size', torch.FloatTensor([in_size]))
+        self.out_size = out_size
+
+    def forward(self, img):
+        img_h = self.out_size[1]
+        img_w = self.out_size[0]
+        hs = torch.stack([self.hs] * img_w, dim=1).view(-1)
+        ws = torch.stack([self.ws] * img_h, dim=0).view(-1)
+
+        pts = torch.stack([ws, hs], dim=1)
+        target_pts = super().forward(pts)
+        target_pts = (target_pts - (self.in_size / 2)) / (self.in_size / 2)
+
+        warped_img = F.grid_sample(img.unsqueeze(0), target_pts.view(1, img_h, img_w, 2), mode='bilinear')
+        warped_img = warped_img.squeeze(0)
+
+        return warped_img

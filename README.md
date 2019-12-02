@@ -53,6 +53,10 @@ Results on SPair-71k: (PCK: 27.2%, 28.2%)
     python evaluate.py --dataset spair --backbone resnet50 --hyperpixel '(0,9,10,11,12,13)'
     python evaluate.py --dataset spair --backbone resnet101 --hyperpixel '(0,8,20,21,26,28,29,30)'
     
+To visualize predictions using TPS transformation, add command line argument **--visualize**: 
+
+    python evaluate.py --visualize
+    
 ### Bibtex
 If you use this code and SPair-71k dataset for your research, please consider citing:
 ````

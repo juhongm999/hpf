@@ -3,8 +3,15 @@ r"""Helper functions"""
 import logging
 import re
 
+import torchvision.transforms.functional as ff
 import torch.nn.functional as F
 import torch
+from PIL import Image
+
+from model import geometry
+from data import dataset
+
+unnorm = dataset.UnNormalize()
 
 
 def init_logger(logfile):
@@ -66,3 +73,19 @@ def intersect1d(tensor1, tensor2):
 def parse_hyperpixel(hyperpixel_ids):
     r"""Parse given hyperpixel list (string -> int)"""
     return list(map(int, re.findall(r'\d+', hyperpixel_ids)))
+
+
+def visualize_prediction(src_kps, prd_kps, src_img, trg_img, vispath, relaxation=2000):
+    r"""TPS transform source image using predicted correspondences"""
+    src_imsize = src_img.size()[1:][::-1]
+    trg_imsize = trg_img.size()[1:][::-1]
+
+    img_tps = geometry.ImageTPS(src_kps, prd_kps, src_imsize, trg_imsize, relaxation)
+    wrp_img = ff.to_pil_image(img_tps(unnorm(src_img.cpu())))
+    trg_img = ff.to_pil_image(unnorm(trg_img.cpu()))
+
+    new_im = Image.new('RGB', (trg_imsize[0] * 2, trg_imsize[1]))
+    new_im.paste(wrp_img, (0, 0))
+    new_im.paste(trg_img, (trg_imsize[0], 0))
+    new_im.save(vispath)
+
