@@ -18,6 +18,7 @@ For more information, check out project [[website](http://cvlab.postech.ac.kr/re
     conda install -c anaconda scikit-image
     conda install -c anaconda pandas
     conda install -c anaconda requests
+    conda install pillow=6.1
     pip install gluoncv-torch
 
 ### Reproduction    
