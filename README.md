@@ -2,7 +2,7 @@
 This is the implementation of the paper "Hyperpixel Flow: Semantic Correspondence with Multi-layer Neural Features" by J. Min, J. Lee, J. Ponce and M. Cho.
 Implemented on Python 3.6 and Pytorch 1.0.1.
 
-![](http://cvlab.postech.ac.kr/research/HPF/images/architecture.png)
+![](https://juhongm999.github.io/pic/hpf.png)
 
 For more information, check out project [[website](http://cvlab.postech.ac.kr/research/HPF/)] and the paper on [[arXiv](http://arxiv.org/abs/1908.06537)].
 
