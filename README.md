@@ -60,7 +60,7 @@ To visualize predictions using TPS transformation, add command line argument **-
     
 ### Bibtex
 If you use this code and SPair-71k dataset for your research, please consider citing:
-````
+````BibTeX
 @InProceedings{min2019hyperpixel, 
    title={Hyperpixel Flow: Semantic Correspondence with Multi-layer Neural Features},
    author={Juhong Min and Jongmin Lee and Jean Ponce and Minsu Cho},
