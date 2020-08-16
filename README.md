@@ -68,7 +68,7 @@ If you use this code and SPair-71k dataset for your research, please consider ci
    year={2019}
 }
 ````
-````
+````BibTeX
 @article{min2019spair,
    title={SPair-71k: A Large-scale Benchmark for Semantic Correspondence},
    author={Juhong Min and Jongmin Lee and Jean Ponce and Minsu Cho},
