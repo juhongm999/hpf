@@ -58,7 +58,7 @@ To visualize predictions using TPS transformation, add command line argument **-
 
     python evaluate.py --visualize
     
-### Bibtex
+### BibTeX
 If you use this code and SPair-71k dataset for your research, please consider citing:
 ````BibTeX
 @InProceedings{min2019hyperpixel, 
