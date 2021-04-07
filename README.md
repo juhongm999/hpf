@@ -1,3 +1,7 @@
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/hyperpixel-flow-semantic-correspondence-with/semantic-correspondence-on-spair-71k)](https://paperswithcode.com/sota/semantic-correspondence-on-spair-71k?p=hyperpixel-flow-semantic-correspondence-with)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/hyperpixel-flow-semantic-correspondence-with/semantic-correspondence-on-pf-pascal)](https://paperswithcode.com/sota/semantic-correspondence-on-pf-pascal?p=hyperpixel-flow-semantic-correspondence-with)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/hyperpixel-flow-semantic-correspondence-with/semantic-correspondence-on-pf-willow)](https://paperswithcode.com/sota/semantic-correspondence-on-pf-willow?p=hyperpixel-flow-semantic-correspondence-with)
+
 ## Hyperpixel Flow: <br/> Semantic Correspondence with Multi-layer Neural Features
 This is the implementation of the paper "Hyperpixel Flow: Semantic Correspondence with Multi-layer Neural Features" by J. Min, J. Lee, J. Ponce and M. Cho.
 Implemented on Python 3.6 and Pytorch 1.0.1.
