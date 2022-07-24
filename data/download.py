@@ -35,7 +35,7 @@ def download_from_google(token_id, filename):
     destination = filename + '.tar.gz'
     session = requests.Session()
 
-    response = session.get(url, params={'id': token_id}, stream=True)
+    response = session.get(url, params={'id': token_id, 'confirm':'t'}, stream=True)
     token = get_confirm_token(response)
 
     if token:
