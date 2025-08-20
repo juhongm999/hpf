@@ -245,6 +245,9 @@ set showmatch           "show matching brackets
 set scrolloff=7         "show some lines after/before EOF
 let python_highlight_all = 1
 
+hi LineNrAbove guifg=red ctermfg=red
+hi LineNrBelow guifg=green ctermfg=green
+
 set nofoldenable        "show no folds when opening files
 set foldmethod=indent   "fold codeblock based on indentation
 set foldnestmax=20      "maximum number of nested folds
